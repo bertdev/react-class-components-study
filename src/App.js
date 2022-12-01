@@ -4,20 +4,37 @@ import './App.css';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.timeoutUpdate = null;
     this.state = {
-      posts: [
-        {
-          id: 1,
-          title: 'Post 1',
-          content: 'Content 1'
-        },
-        {
-          id: 2,
-          title: 'Post 2',
-          content: 'Content 1'
-        }
-      ]
+      posts: []
     };
+  }
+
+  componentDidMount() {
+    this.timeoutUpdate = setTimeout(() => {
+      this.setState({
+        posts: [
+          {
+            id: 1,
+            title: 'Post 1',
+            content: 'Content 1'
+          },
+          {
+            id: 2,
+            title: 'Post 2',
+            content: 'Content 1'
+          }
+        ]
+      });
+    }, 3000);
+  }
+
+  componentDidUpdate() {
+    console.log('component status was updated');
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeoutUpdate);
   }
 
   render() {
