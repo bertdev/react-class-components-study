@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import Post from '../Post';
+import './styles.css';
 
 class PostsGrid extends Component {
   render() {
