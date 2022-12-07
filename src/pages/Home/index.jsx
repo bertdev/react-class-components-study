@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import './App.css';
-import PostsGrid from './components/PostsGrid';
+import './styles.css';
+import PostsGrid from '../../components/PostsGrid';
 
-import { loadPosts } from './utils/loadPosts.js';
-import { loadPhotos } from './utils/loadPhotos.js';
+import { loadPosts } from '../../utils/loadPosts.js';
+import { loadPhotos } from '../../utils/loadPhotos.js';
 
 class App extends Component {
   constructor(props) {
