@@ -2,6 +2,7 @@ import { Component } from 'react';
 import './styles.css';
 import PostsGrid from '../../components/PostsGrid';
 import Button from '../../components/Button';
+import SearchInput from '../../components/SearchInput'
 
 import { loadPosts } from '../../utils/loadPosts.js';
 import { loadPhotos } from '../../utils/loadPhotos.js';
@@ -13,7 +14,8 @@ class Home extends Component {
       posts: [],
       allPosts: [],
       page: 0,
-      postsPerPage: 50
+      postsPerPage: 50,
+      inputValue: "",
     };
   }
 
@@ -43,14 +45,39 @@ class Home extends Component {
     this.setState({posts: this.state.posts, page: nextPage })
   }
 
+  handleChange = (event) => {
+    const { value } = event.target; 
+    this.setState({inputValue: value});
+  }
+
   render() {
-    const { posts } = this.state;
+    const { posts, inputValue, allPosts } = this.state;
     const noMorePosts = posts.length >= this.state.allPosts.length;
+    const filteredPosts = !!inputValue 
+      ? allPosts.filter((item) => item.body.toLowerCase().includes(inputValue.toLowerCase()))
+      : posts;
+
     return (
       <section className="container">
-        <PostsGrid posts={posts} />
+        <div className="search-container">
+          {!!inputValue && (
+            <h1>Searching by: {inputValue}</h1>
+          )}
+         <SearchInput inputValue={inputValue} handleChange={this.handleChange} /> 
+        </div>
+
+        {filteredPosts.length > 0 && (
+          <PostsGrid posts={filteredPosts} />
+        )}
+
+        {filteredPosts.length === 0 && (
+          <p>Ops! Not found =( </p>
+        )}
+
         <div className="button-container">
-          <Button text="Load more posts" handleOnClick={this.loadMorePosts} disabled={noMorePosts}/>
+          {!inputValue && (
+            <Button text="Load more posts" handleOnClick={this.loadMorePosts} disabled={noMorePosts}/>
+          )}
         </div>
       </section>
     );
